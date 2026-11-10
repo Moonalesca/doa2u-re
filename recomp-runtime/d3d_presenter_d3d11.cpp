@@ -452,7 +452,10 @@ LRESULT CALLBACK presenterWindowProc(
         if (presenter != nullptr) {
             presenter->close_requested = true;
         }
-        DestroyWindow(window);
+        /* Hidden, not destroyed: the swap chain still presents to this window,
+           and releasePresenter destroys it after releasing the chain. Destroying
+           it here left the release to a dead window and the process hung at exit. */
+        ShowWindow(window, SW_HIDE);
         return 0;
     }
     return DefWindowProcW(window, message, wparam, lparam);
