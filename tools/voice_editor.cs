@@ -205,11 +205,14 @@ class VoiceEditor : Form
         worker.Start();
     }
 
-    // python, else the py launcher; stdout and stderr together.
+    // The release's own Python (tools\python), else python, else the py launcher;
+    // stdout and stderr together.
     static string RunPython(string directory, string args, out int code)
     {
-        foreach (var exe in new[] { "python", "py" })
+        var bundled = Path.Combine(Path.Combine(Path.Combine(directory, "tools"), "python"), "python.exe");
+        foreach (var exe in new[] { bundled, "python", "py" })
         {
+            if (exe == bundled && !File.Exists(bundled)) continue;
             var info = new ProcessStartInfo(exe, (exe == "py" ? "-3 " : "") + args)
             {
                 WorkingDirectory = directory, UseShellExecute = false, CreateNoWindow = true,

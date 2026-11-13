@@ -1,5 +1,7 @@
 Dead or Alive 2 Ultimate native PC port - 0.4.0 Alpha
-=====================================================
+==============================================
+This is Moonalesca's fork of NoRain211's port. Its UPDATE page installs this
+fork's releases (see "Fork features" below).
 
 This is an early build. It contains no game files. You
 build the game yourself from your own copy of Dead or Alive Ultimate
@@ -81,8 +83,27 @@ supported. If the two games stop matching, the fight ends and the game says a pl
 A demanding moment on The Burai Zenin can still drop a single frame, and
 the safari stage's heat haze does not ripple yet.
 
+Fork features (all on PC SETTINGS in the game's Options menu; offline only
+where they change the fight):
+
+- KO Replay: Dynamic (the default) cuts to the game's own multi-angle replay
+  cameras a few frames after the KO hit, shows it three times, the last at
+  85% speed, then lets the fall play out live. Original keeps the game's.
+- Hit Voices: Off, Quiet, Normal or Loud. The fighters grunt when hit and cry
+  out when KO'd, in the replay too, with clips from Dead or Alive 4. This ZIP
+  holds no DOA4 audio: you need your own extracted DOA4 disc and an ffmpeg
+  on PATH (any ordinary build). Then, in this folder, run once:
+
+      tools\python\python.exe tools\import_doa4_voices.py <DOA4>\snd.afs
+
+  It decodes the clips into private\doa4-voice-all and picks the same ones
+  for every fighter that this fork uses. VoiceEditor.exe lets you change
+  which clips play and how often; the game picks up changes at once.
+- Life Bar: the life bars' colour, from 16 or Custom. Outside Sparring the
+  combo's damage shows under the hit counter.
+
 Reporting problems: open an issue at
-https://github.com/NoRain211/doa2u-re/issues and say what you did and what
+https://github.com/Moonalesca/doa2u-re/issues and say what you did and what
 happened. Copy the "recomp stop" or crash lines from the end of the newest
 log in private\play-logs, the error Launcher.exe shows if there is no log, or
 the error from the newest private\build-logs folder if the build failed.
