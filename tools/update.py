@@ -15,14 +15,16 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-LATEST = "https://api.github.com/repos/NoRain211/doa2u-re/releases/latest"
+# Moonalesca's fork: its releases carry its own features, so it updates from them alone.
+LATEST = "https://api.github.com/repos/Moonalesca/doa2u-re/releases/latest"
 OTHER_PLATFORMS = ("-macOS.zip", "-Linux.zip")
 SUFFIX = {"win32": "", "darwin": "-macOS"}.get(sys.platform, "-Linux")
 
 
 def number(text):
-    found = re.search(r"\d+(\.\d+)+", text)
-    return tuple(int(part) for part in found.group().split(".")) if found else (0,)
+    """Every number in a version, in order: 0.3.2-Alpha-Moonalesca.1 is (0, 3, 2, 1), after 0.3.2."""
+    found = re.findall(r"\d+", text)
+    return tuple(int(part) for part in found) if found else (0,)
 
 
 def installed():

@@ -21,6 +21,8 @@ class UpdateTest(unittest.TestCase):
     def test_versions_compare_numerically(self):
         self.assertGreater(update.number("v0.1.10"), update.number("0.1.9-Alpha"))
         self.assertEqual(update.number("0.1.10"), update.number("0.1.10-Alpha"))
+        self.assertGreater(update.number("v0.3.2-Alpha-Moonalesca.2"), update.number("0.3.2-Alpha-Moonalesca.1"))
+        self.assertGreater(update.number("0.3.2-Alpha-Moonalesca.1"), update.number("v0.3.2"))
 
     def test_asset_matches_the_platform(self):
         assets = [{"name": "DOA2U-1-Alpha-Linux.zip"}, {"name": "DOA2U-1-Alpha-macOS.zip"}, {"name": "DOA2U-1-Alpha.zip"}]
