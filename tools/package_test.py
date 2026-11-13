@@ -22,7 +22,7 @@ DEV_FILES = {"AGENTS.md", "CONTEXT.md", "README.md", ".gitattributes", ".gitigno
              "tools/doa2u/function_status.json", "tools/matchmaker.py", "tools/matchmaker.service", SUBMODULE}
 DEV_PREFIXES = (".github/", "docs/", "tools/test_", "tools/doa2u/ghidra/")
 # Files one platform family alone builds or runs; recomp-runtime/CMakeLists.txt picks backends by WIN32.
-WINDOWS_ONLY = {"tools/launcher.cs", "tools/voice_editor.cs", *(f"recomp-runtime/{name}" for name in (
+WINDOWS_ONLY = {"tools/launcher.cs", "tools/voice_editor.cs", "tools/jukebox_editor.cs", *(f"recomp-runtime/{name}" for name in (
     "audio_output_xaudio2.cpp", "audio_output_xaudio2_test.cpp", "audio_output_xaudio2_host_test.cpp",
     "audio_xtalk_xapo.cpp", "audio_xtalk_xapo.h", "audio_capture_xapo.cpp", "audio_capture_xapo.h",
     "audio_capture_xapo_test.cpp", "xaudio2_reverb.h", "xaudio2_reverb_test.cpp",
@@ -64,6 +64,8 @@ CSC = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Microsoft.NET" / "Framewo
 LAUNCHERS = {"Launcher.exe": [], "DOA2U.exe": ["/define:PLAY_ONLY"]}
 # VoiceEditor.exe picks and tunes the DOA4 hit voices (tools/voice_editor.cs).
 VOICE_EDITOR = "VoiceEditor.exe"
+# JukeboxEditor.exe names the Jukebox's tracks and assigns them, with a preview (tools/jukebox_editor.cs).
+JUKEBOX_EDITOR = "JukeboxEditor.exe"
 # Optional private icon (fan art from issue #39 holds Tecmo's character and logo art, so it stays untracked).
 ICON = ROOT / "private" / "launcher-icon.ico"
 
@@ -82,6 +84,11 @@ def build_launchers(out_dir):
 def build_voice_editor(out_dir):
     subprocess.run([str(CSC), "/nologo", "/target:winexe", f"/out:{out_dir / VOICE_EDITOR}",
                     str(ROOT / "tools" / "voice_editor.cs")], check=True)
+
+
+def build_jukebox_editor(out_dir):
+    subprocess.run([str(CSC), "/nologo", "/target:winexe", f"/out:{out_dir / JUKEBOX_EDITOR}",
+                    str(ROOT / "tools" / "jukebox_editor.cs")], check=True)
 
 
 def git(*args, cwd=ROOT):
@@ -142,6 +149,7 @@ def main():
     args = parser.parse_args()
     if args.launchers:
         build_launchers(args.launchers)
+        build_jukebox_editor(Path(args.launchers))
         return
     if not args.version:
         parser.error("give a version, or --launchers DIR")
@@ -190,7 +198,8 @@ def main():
             with tempfile.TemporaryDirectory() as launchers:
                 build_launchers(Path(launchers))
                 build_voice_editor(Path(launchers))
-                for exe in (*LAUNCHERS, VOICE_EDITOR):
+                build_jukebox_editor(Path(launchers))
+                for exe in (*LAUNCHERS, VOICE_EDITOR, JUKEBOX_EDITOR):
                     package.write(Path(launchers) / exe, f"{name}/{exe}")
         package.write(ARTIFACTS / artifacts[2], f"{name}/private/{artifacts[2]}")
         package.write(ROOT / readme, f"{name}/README.txt")
