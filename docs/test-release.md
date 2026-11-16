@@ -108,12 +108,9 @@ where they change the fight):
   85% speed, then lets the fall play out live. Original keeps the game's.
 - Hit Voices: Off, Quiet, Normal or Loud. The fighters grunt when hit and cry
   out when KO'd, in the replay too, with clips from Dead or Alive 4. This ZIP
-  holds no DOA4 audio: you need your own extracted DOA4 disc and an ffmpeg
-  on PATH (any ordinary build). Then, in this folder, run once:
-
-      tools\python\python.exe tools\import_doa4_voices.py <DOA4>\snd.afs
-
-  It decodes the clips into private\doa4-voice-all and picks the same ones
+  holds no DOA4 audio: drop your own DOA4 ISO on the launcher (or use AUDIO
+  SETTINGS > Import DOA4 Voices). It adds DOA4's music to the Jukebox, then
+  decodes the clips into private\doa4-voice-all and picks the same ones
   for every fighter that this fork uses. VoiceEditor.exe lets you change
   which clips play and how often; the game picks up changes at once.
 - Life Bar: the life bars' colour, from 16 or Custom. Outside Sparring the
