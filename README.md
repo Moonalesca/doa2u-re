@@ -170,6 +170,12 @@ keeps running.
   lists them, and a later mod's file wins; a folder whose name starts with
   `_` is off. The game's log (`private\play-logs`) lists every mod and file
   it serves. Netplay only pairs players whose mods are the same.
+- **Fight HUD.** PC Settings' **Fight HUD** row picks the in-fight additions:
+  **Both** (the combo's damage under the hit counter and Sparring's
+  critical-stun segment on the life bars), **Damage**, **Stun Meter**, or
+  **Original** for the base game's HUD.
+- **Story mode.** Hitomi can turn up as one of story mode's random
+  opponents.
 - **Sharper menus.** Both renderers redraw the game's 32-bit 2D art (menus,
   fonts, the HUD) at four times its size with xBRZ the first time each piece is
   shown, so it stays smooth at high resolutions; the Vulkan renderer also
