@@ -154,9 +154,9 @@ static void pcSettingChanged(unsigned setting, unsigned choice, void *)
     case RECOMP_PC_LIFE_BAR:
         recomp_combo_hud_set_life_bar_colour(choice, recomp_pc_settings_custom_life_bar(launcherSettings));
         break;
-    case RECOMP_PC_COMBO_HUD: recomp_combo_hud_set_enabled(choice == 1u); break;
     case RECOMP_PC_HIT_VOICES: recomp_hit_voice_set_choice(choice); break;
     case RECOMP_PC_KO_REPLAY: recomp_ko_replay_set_enabled(choice == 1u); break;
+    case RECOMP_PC_FIGHT_HUD: recomp_combo_hud_set_choice(choice); break;
     case RECOMP_PC_RESOLUTION:
     case RECOMP_PC_MSAA:
     case RECOMP_PC_SMAA: {
@@ -248,9 +248,9 @@ static void installPcSettings(bool online)
         choices[RECOMP_PC_FREE_CAMERA] = recomp_free_camera_enabled() ? 1u : 0u;
     }
     recomp_combo_hud_set_life_bar_colour(choices[RECOMP_PC_LIFE_BAR], recomp_pc_settings_custom_life_bar(launcherSettings));
-    recomp_combo_hud_set_enabled(choices[RECOMP_PC_COMBO_HUD] == 1u);
     recomp_hit_voice_set_choice(choices[RECOMP_PC_HIT_VOICES]);
     recomp_ko_replay_set_enabled(choices[RECOMP_PC_KO_REPLAY] == 1u);
+    recomp_combo_hud_set_choice(choices[RECOMP_PC_FIGHT_HUD]);
     const RecompPcSettingsHost host{pcSettingChanged, pcSettingsClosed, nullptr};
     recomp_pc_settings_install(&host, choices);
     const RecompButtonConfigHost rebind{recomp_rebind_name, recomp_rebind_listen, recomp_rebind_listening,
@@ -266,6 +266,7 @@ static void installPcSettings(bool online)
         recomp_combo_hud_set_enabled(false);
         recomp_combo_hud_set_life_bar_colour(0u, 0u);
         recomp_hit_voice_set_choice(0u);
+        recomp_pc_settings_set_live(RECOMP_PC_FIGHT_HUD, false); // a change there waits for the next start
     }
 }
 
