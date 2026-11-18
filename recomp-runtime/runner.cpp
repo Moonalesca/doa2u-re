@@ -722,11 +722,11 @@ static void bootGuest()
     const bool online = recomp_netplay_session_enabled() || recomp_synctest_enabled();
     recomp_free_camera_install(online);
     recomp_cpu_costume_install(online);
-    recomp_combo_hud_install(online);
     installHitVoices(online);
     recomp_ko_replay_install(online);
     recomp_unlock_profile_reset();
     recomp_runner_assets_reset();
+    recomp_combo_hud_install(online);
     installPcSettings(online);
     /* The Jukebox plays over the game and changes its music: offline only. */
     recomp_jukebox_install(online);
